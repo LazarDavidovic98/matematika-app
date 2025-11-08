@@ -3,7 +3,7 @@ import os
 
 class Settings(BaseSettings):
     # Database configuration
-    database_url: str = "postgresql://username:password@localhost:5432/matematika_db"
+    database_url: str = "postgresql://admin:password123@database:5432/matematika_db"
     
     # Email SMTP configuration
     smtp_server: str = "smtp.gmail.com"
