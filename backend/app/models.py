@@ -21,7 +21,7 @@ class Course(Base):
     lessons = relationship("Lesson", back_populates="course")
 
 class Lesson(Base):
-    """Model za pojedinačne lekcije"""
+    """Model za pojedinačne lekcije - PDF materijali"""
     __tablename__ = "lessons"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -29,8 +29,7 @@ class Lesson(Base):
     content = Column(Text)
     course_id = Column(Integer, ForeignKey("courses.id"))
     order_number = Column(Integer)  # redosled lekcija u kursu
-    video_url = Column(String(500))  # link ka video materijalu
-    pdf_url = Column(String(500))    # link ka PDF materijalu
+    pdf_url = Column(String(500), nullable=False)    # link ka PDF materijalu
     difficulty = Column(String(50))  # lako, srednje, teško
     is_free = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

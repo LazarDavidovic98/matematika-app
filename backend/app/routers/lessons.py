@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from typing import List
+import os
+from pathlib import Path
 from ..database import get_db
 from ..models import Lesson as LessonModel
 from ..schemas import Lesson, LessonCreate, LessonUpdate
@@ -95,3 +98,43 @@ def delete_lesson(lesson_id: int, db: Session = Depends(get_db)):
     db.delete(lesson)
     db.commit()
     return {"message": "Lekcija je uspešno obrisana"}
+
+@router.get("/download/{filename}")
+def download_file(filename: str):
+    """Download PDF fajlova"""
+    # Kreiranje putanje do fajla
+    file_path = Path("uploads/materials") / filename
+    
+    # Proveravamo da li fajl postoji
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Fajl nije pronađen"
+        )
+    
+    # Vraćamo fajl kao FileResponse
+    return FileResponse(
+        path=str(file_path),
+        filename=filename,
+        media_type='application/pdf'
+    )
+
+@router.get("/view/{filename}")
+def view_file(filename: str):
+    """Pregled PDF fajlova u browseru"""
+    # Kreiranje putanje do fajla
+    file_path = Path("uploads/materials") / filename
+    
+    # Proveravamo da li fajl postoji
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Fajl nije pronađen"
+        )
+    
+    # Vraćamo fajl za pregled u browseru
+    return FileResponse(
+        path=str(file_path),
+        media_type='application/pdf',
+        headers={"Content-Disposition": "inline"}
+    )

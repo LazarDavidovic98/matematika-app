@@ -30,14 +30,13 @@ class Course(CourseBase):
     class Config:
         from_attributes = True
 
-# Lesson schemas
+# Lesson schemas - PDF materijali
 class LessonBase(BaseModel):
     title: str
     content: Optional[str] = None
     course_id: Optional[int] = None
     order_number: Optional[int] = None
-    video_url: Optional[str] = None
-    pdf_url: Optional[str] = None
+    pdf_url: str  # obavezno PDF polje
     difficulty: Optional[str] = None
     is_free: bool = True
 
@@ -49,7 +48,6 @@ class LessonUpdate(BaseModel):
     content: Optional[str] = None
     course_id: Optional[int] = None
     order_number: Optional[int] = None
-    video_url: Optional[str] = None
     pdf_url: Optional[str] = None
     difficulty: Optional[str] = None
     is_free: Optional[bool] = None

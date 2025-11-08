@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Play, BookOpen, Download, Eye, Clock, Filter, Search } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { FileText, BookOpen, Download, Eye, Clock, Filter, Search } from 'lucide-react';
 import axios from 'axios';
 
 const Lekcije = () => {
+  const [searchParams] = useSearchParams();
+  const courseIdFromUrl = searchParams.get('course_id');
+  
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
-  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState(courseIdFromUrl || '');
   const [freeOnly, setFreeOnly] = useState(false);
 
   const difficulties = [
@@ -19,91 +23,22 @@ const Lekcije = () => {
 
   const courses = [
     { value: '', label: 'Svi kursevi' },
-    { value: 'algebra', label: 'Algebra' },
-    { value: 'geometrija', label: 'Geometrija' },
-    { value: 'trigonometrija', label: 'Trigonometrija' },
-    { value: 'analiza', label: 'Matematička analiza' }
+    { value: '1', label: 'Uvod u matematičku logiku' }
   ];
 
-  // Mock podaci
+  // Samo jedna lekcija - PDF materijal
   const mockLessons = [
     {
       id: 1,
-      title: 'Uvod u algebru',
-      content: 'Osnovni pojmovi algebre, varijable i konstante.',
-      course: 'algebra',
+      title: 'Uvod u matematičku logiku',
+      content: 'Osnove matematičke logike, logičke formule, iskazna logika i osnove dokazivanja. Detaljno objašnjenje sa primerima logičkih formula i osnovnih pravila zaključivanja.',
+      course_id: 1,
       order_number: 1,
-      video_url: 'https://example.com/video1',
-      pdf_url: 'https://example.com/pdf1',
+      pdf_url: 'Uvod u matematičku logiku.pdf',
       difficulty: 'lako',
       is_free: true,
-      duration: 15,
-      views: 1250
-    },
-    {
-      id: 2,
-      title: 'Linearne jednačine',
-      content: 'Rešavanje linearnih jednačina sa jednom nepoznatom.',
-      course: 'algebra',
-      order_number: 2,
-      video_url: 'https://example.com/video2',
-      pdf_url: 'https://example.com/pdf2',
-      difficulty: 'lako',
-      is_free: true,
-      duration: 20,
-      views: 980
-    },
-    {
-      id: 3,
-      title: 'Kvadratne jednačine',
-      content: 'Rešavanje kvadratnih jednačina različitim metodama.',
-      course: 'algebra',
-      order_number: 3,
-      video_url: 'https://example.com/video3',
-      pdf_url: 'https://example.com/pdf3',
-      difficulty: 'srednje',
-      is_free: false,
-      duration: 25,
-      views: 756
-    },
-    {
-      id: 4,
-      title: 'Osnove geometrije',
-      content: 'Tačke, prave, uglovi i osnovne geometrijske figure.',
-      course: 'geometrija',
-      order_number: 1,
-      video_url: 'https://example.com/video4',
-      pdf_url: 'https://example.com/pdf4',
-      difficulty: 'lako',
-      is_free: true,
-      duration: 18,
-      views: 1100
-    },
-    {
-      id: 5,
-      title: 'Trouglovi',
-      content: 'Vrste trouglova, teorema o trouglovima.',
-      course: 'geometrija',
-      order_number: 2,
-      video_url: 'https://example.com/video5',
-      pdf_url: 'https://example.com/pdf5',
-      difficulty: 'srednje',
-      is_free: true,
-      duration: 22,
-      views: 890
-    },
-    {
-      id: 6,
-      title: 'Trigonometrijske funkcije',
-      content: 'Sin, cos, tan funkcije i njihove osnove.',
-      course: 'trigonometrija',
-      order_number: 1,
-      video_url: 'https://example.com/video6',
-      pdf_url: 'https://example.com/pdf6',
-      difficulty: 'teško',
-      is_free: false,
-      duration: 30,
-      views: 650
+      pages: 24,
+      downloads: 892
     }
   ];
 
@@ -119,7 +54,7 @@ const Lekcije = () => {
     const matchesSearch = lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          lesson.content.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDifficulty = !selectedDifficulty || lesson.difficulty === selectedDifficulty;
-    const matchesCourse = !selectedCourse || lesson.course === selectedCourse;
+    const matchesCourse = !selectedCourse || lesson.course_id.toString() === selectedCourse;
     const matchesFree = !freeOnly || lesson.is_free;
     
     return matchesSearch && matchesDifficulty && matchesCourse && matchesFree;
@@ -168,22 +103,22 @@ const Lekcije = () => {
       <div className="section-padding bg-gradient-to-br from-primary-50 via-white to-accent-50 rounded-2xl border border-neutral-200">
         <div className="container-max text-center">
           <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-6">
-            Besplatne{' '}
-            <span className="gradient-text">Lekcije</span>
+            PDF{' '}
+            <span className="gradient-text">Materijali</span>
           </h1>
           <p className="text-xl text-neutral-600 leading-relaxed mb-8 max-w-3xl mx-auto">
-            Pristupite našoj biblioteci video lekcija i materijala. Učite u svom tempu, 
-            kada vam odgovara.
+            Pristupite našoj biblioteci PDF materijala i lekcija. Preuzmite i učite 
+            u svom tempu, kada vam odgovara.
           </p>
           
           <div className="flex flex-wrap justify-center gap-6">
             <div className="flex items-center space-x-2 text-accent-600">
-              <Play size={20} />
-              <span className="font-medium">HD video kvalitet</span>
+              <FileText size={20} />
+              <span className="font-medium">Kvalitetni PDF materijali</span>
             </div>
             <div className="flex items-center space-x-2 text-primary-600">
               <Download size={20} />
-              <span className="font-medium">Materijali za download</span>
+              <span className="font-medium">Besplatno preuzimanje</span>
             </div>
             <div className="flex items-center space-x-2 text-secondary-600">
               <BookOpen size={20} />
@@ -288,15 +223,15 @@ const Lekcije = () => {
             </div>
             <div className="card text-center p-6">
               <div className="text-2xl font-bold text-secondary-600 mb-2">
-                {Math.round(filteredLessons.reduce((acc, l) => acc + l.duration, 0) / 60)}h
+                {filteredLessons.reduce((acc, l) => acc + l.pages, 0)}
               </div>
-              <div className="text-neutral-600">Video sadržaja</div>
+              <div className="text-neutral-600">Strana sadržaja</div>
             </div>
             <div className="card text-center p-6">
               <div className="text-2xl font-bold text-primary-600 mb-2">
-                {filteredLessons.reduce((acc, l) => acc + l.views, 0).toLocaleString()}
+                {filteredLessons.reduce((acc, l) => acc + l.downloads, 0).toLocaleString()}
               </div>
-              <div className="text-neutral-600">Pregleda</div>
+              <div className="text-neutral-600">Preuzimanja</div>
             </div>
           </div>
         </div>
@@ -319,15 +254,15 @@ const Lekcije = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredLessons.map((lesson) => (
                 <div key={lesson.id} className="card hover-lift overflow-hidden">
-                  {/* Video thumbnail */}
+                  {/* PDF thumbnail */}
                   <div className="relative h-40 bg-gradient-to-br from-primary-200 via-accent-200 to-secondary-200 flex items-center justify-center">
                     <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <Play size={24} className="text-white ml-1" />
+                      <FileText size={24} className="text-white" />
                     </div>
                     
-                    {/* Duration badge */}
+                    {/* Pages badge */}
                     <div className="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
-                      {lesson.duration} min
+                      {lesson.pages} strana
                     </div>
                     
                     {/* Free badge */}
@@ -346,8 +281,8 @@ const Lekcije = () => {
                           {getDifficultyLabel(lesson.difficulty)}
                         </span>
                         <div className="flex items-center space-x-1 text-sm text-neutral-500">
-                          <Eye size={14} />
-                          <span>{lesson.views.toLocaleString()}</span>
+                          <Download size={14} />
+                          <span>{lesson.downloads.toLocaleString()}</span>
                         </div>
                       </div>
                       
@@ -363,31 +298,42 @@ const Lekcije = () => {
                     {/* Metapodaci */}
                     <div className="flex items-center justify-between text-sm text-neutral-500">
                       <div className="flex items-center space-x-1">
-                        <Clock size={14} />
-                        <span>{lesson.duration} min</span>
+                        <FileText size={14} />
+                        <span>{lesson.pages} strana</span>
                       </div>
                       <span className="text-xs bg-neutral-100 px-2 py-1 rounded">
-                        {courses.find(c => c.value === lesson.course)?.label || lesson.course}
+                        {courses.find(c => c.value === lesson.course_id.toString())?.label || `Kurs ${lesson.course_id}`}
                       </span>
                     </div>
                     
                     {/* Akcije */}
                     <div className="pt-4 border-t border-neutral-100 space-y-2">
-                      <button className={`w-full py-2 px-4 rounded-lg font-medium transition-all duration-200 ${
-                        lesson.is_free 
-                          ? 'bg-accent-500 hover:bg-accent-600 text-white'
-                          : 'bg-primary-500 hover:bg-primary-600 text-white'
-                      }`}>
+                      <button 
+                        onClick={() => window.open(`http://localhost:8000/api/lessons/view/${encodeURIComponent(lesson.pdf_url)}`, '_blank')}
+                        className={`w-full py-2 px-4 rounded-lg font-medium transition-all duration-200 ${
+                          lesson.is_free 
+                            ? 'bg-accent-500 hover:bg-accent-600 text-white'
+                            : 'bg-primary-500 hover:bg-primary-600 text-white'
+                        }`}
+                      >
                         <div className="flex items-center justify-center space-x-2">
-                          <Play size={16} />
-                          <span>{lesson.is_free ? 'Pogledaj besplatno' : 'Kupi pristup'}</span>
+                          <Eye size={16} />
+                          <span>{lesson.is_free ? 'Otvori PDF' : 'Kupi pristup'}</span>
                         </div>
                       </button>
                       
-                      {lesson.pdf_url && (
-                        <button className="w-full btn-secondary text-sm flex items-center justify-center space-x-2">
+                      {lesson.is_free && (
+                        <button 
+                          onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = `http://localhost:8000/api/lessons/download/${encodeURIComponent(lesson.pdf_url)}`;
+                            link.download = lesson.pdf_url;
+                            link.click();
+                          }}
+                          className="w-full btn-secondary text-sm flex items-center justify-center space-x-2"
+                        >
                           <Download size={16} />
-                          <span>Preuzmi materijale</span>
+                          <span>Preuzmi PDF</span>
                         </button>
                       )}
                     </div>
@@ -403,19 +349,19 @@ const Lekcije = () => {
       <div className="section-padding bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-2xl">
         <div className="container-max text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Želite pristup svim lekcijama?
+            Potrebni vam dodatni materijali?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Postanite premium član i dobijte neograničen pristup svim video lekcijama, 
-            materijalima i ekskluzivnim sadržajima.
+            Zakažite privatne časove i dobijte personalizovane PDF materijale 
+            prilagođene vašim potrebama i nivou znanja.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-white text-primary-600 font-medium py-3 px-8 rounded-lg hover:bg-neutral-50 transition-colors">
-              Postani premium član
+              Zakaži privatne časove
             </button>
             <button className="border-2 border-white text-white font-medium py-3 px-8 rounded-lg hover:bg-white hover:text-primary-600 transition-colors">
-              Saznaj više o planovima
+              Kontaktiraj nas
             </button>
           </div>
         </div>

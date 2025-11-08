@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BookOpen, Clock, Star, Users, Play, FileText, Award } from 'lucide-react';
 import axios from 'axios';
 
 const Kursevi = () => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedLevel, setSelectedLevel] = useState('');
@@ -15,85 +17,20 @@ const Kursevi = () => {
     { value: 'fakultet', label: 'Fakultet' }
   ];
 
-  // Mock podaci dok ne implementiramo backend pozive
+  // Samo jedan kurs sa PDF materijalom
   const mockCourses = [
     {
       id: 1,
-      title: 'Osnove Algebre',
-      description: 'Kompletnu kurs algebre za početnike. Naučićete osnovne algebarske operacije, jednačine, nejednačine i sisteme jednačina.',
+      title: 'Uvod u matematičku logiku',
+      description: 'Osnove matematičke logike, logičke formule, iskazna logika i osnove dokazivanja. Materijali dostupni u PDF formatu sa detaljnim objašnjenjima i primerima.',
       level: 'osnovna',
-      duration_weeks: 8,
+      duration_weeks: 4,
       price: 'Besplatno',
       is_active: true,
-      lessons_count: 12,
+      lessons_count: 1,
       difficulty: 'Početni',
-      rating: 4.8,
-      students: 156
-    },
-    {
-      id: 2,
-      title: 'Geometrija - Osnove',
-      description: 'Osnovni koncepti geometrije, figure, površine i zapremine. Praktični pristup sa mnogo primera.',
-      level: 'osnovna',
-      duration_weeks: 6,
-      price: '3000 RSD',
-      is_active: true,
-      lessons_count: 10,
-      difficulty: 'Početni',
-      rating: 4.7,
-      students: 98
-    },
-    {
-      id: 3,
-      title: 'Trigonometrija',
-      description: 'Kompletan kurs trigonometrije - od osnovnih funkcija do složenih identiteta i jednačina.',
-      level: 'srednja',
-      duration_weeks: 10,
-      price: '5000 RSD',
-      is_active: true,
-      lessons_count: 15,
-      difficulty: 'Srednji',
       rating: 4.9,
-      students: 234
-    },
-    {
-      id: 4,
-      title: 'Analiza - Izvodi',
-      description: 'Duboko razumevanje koncept izvoda, primene u geometriji i fizici, optimizacija funkcija.',
-      level: 'viša',
-      duration_weeks: 12,
-      price: '7500 RSD',
-      is_active: true,
-      lessons_count: 18,
-      difficulty: 'Napredni',
-      rating: 4.6,
       students: 87
-    },
-    {
-      id: 5,
-      title: 'Statistika i Verovatnoća',
-      description: 'Praktičan pristup statistici i teoriji verovatnoće sa realnim primerima i slučajevima.',
-      level: 'fakultet',
-      duration_weeks: 14,
-      price: '8500 RSD',
-      is_active: true,
-      lessons_count: 20,
-      difficulty: 'Napredni',
-      rating: 4.8,
-      students: 145
-    },
-    {
-      id: 6,
-      title: 'Priprema za Maturu',
-      description: 'Kompletan kurs pripreme za državnu maturu iz matematike. Svi tipovi zadataka i strategije rešavanja.',
-      level: 'srednja',
-      duration_weeks: 16,
-      price: '6000 RSD',
-      is_active: true,
-      lessons_count: 24,
-      difficulty: 'Srednji',
-      rating: 4.9,
-      students: 312
     }
   ];
 
@@ -308,11 +245,18 @@ const Kursevi = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <button className="btn-primary w-full">
-                          {course.price === 'Besplatno' ? 'Počni besplatno' : 'Kupi kurs'}
+                        <button 
+                          onClick={() => navigate(`/lekcije?course_id=${course.id}`)}
+                          className="btn-primary w-full flex items-center justify-center space-x-2"
+                        >
+                          <FileText size={16} />
+                          <span>Pristup materijalima</span>
                         </button>
-                        <button className="btn-secondary w-full text-sm">
-                          Pogledaj program
+                        <button 
+                          onClick={() => navigate(`/lekcije?course_id=${course.id}`)}
+                          className="btn-secondary w-full text-sm"
+                        >
+                          Pogledaj PDF lekcije
                         </button>
                       </div>
                     </div>
