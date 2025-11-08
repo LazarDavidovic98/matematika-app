@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from .config import settings
 from .database import create_tables
-from .routers import bookings, courses, lessons, definitions, contact
+from .routers import bookings, courses, lessons, contact
 
 # Kreiranje FastAPI aplikacije
 app = FastAPI(
@@ -26,7 +26,6 @@ app.add_middleware(
 app.include_router(bookings.router)
 app.include_router(courses.router)
 app.include_router(lessons.router) 
-app.include_router(definitions.router)
 app.include_router(contact.router)
 
 # Statički fajlovi (upload-ovani materijali)
@@ -59,7 +58,6 @@ async def root():
         "endpoints": {
             "courses": "/api/courses",
             "lessons": "/api/lessons", 
-            "definitions": "/api/definitions",
             "bookings": "/api/bookings",
             "contact": "/api/contact"
         },
@@ -85,8 +83,7 @@ async def api_info():
         "description": "API za Matematika App - hibridna aplikacija za učenje matematike",
         "features": [
             "📚 Upravljanje kursevima i lekcijama",
-            "📖 Baza matematičkih definicija",
-            "📅 Zakazivanje privatnih časova",
+            " Zakazivanje privatnih časova",
             "📧 Email notifikacije",
             "🔍 Pretraga materijala"
         ],

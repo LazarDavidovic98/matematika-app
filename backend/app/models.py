@@ -38,20 +38,6 @@ class Lesson(Base):
     # Relationships
     course = relationship("Course", back_populates="lessons")
 
-class Definition(Base):
-    """Model za matematičke definicije i pojmove"""
-    __tablename__ = "definitions"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    term = Column(String(200), nullable=False, index=True)  # matematički pojam
-    definition = Column(Text, nullable=False)  # definicija
-    category = Column(String(100))  # algebra, geometrija, analiza, itd.
-    level = Column(String(50))  # osnovna, srednja, viša matematika
-    example = Column(Text)  # primer korišćenja
-    formula = Column(String(500))  # matematička formula (LaTeX)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
 class Booking(Base):
     """Model za zakazivanje privatnih časova"""
     __tablename__ = "bookings"

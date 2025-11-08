@@ -60,34 +60,6 @@ class Lesson(LessonBase):
     class Config:
         from_attributes = True
 
-# Definition schemas
-class DefinitionBase(BaseModel):
-    term: str
-    definition: str
-    category: Optional[str] = None
-    level: Optional[str] = None
-    example: Optional[str] = None
-    formula: Optional[str] = None
-
-class DefinitionCreate(DefinitionBase):
-    pass
-
-class DefinitionUpdate(BaseModel):
-    term: Optional[str] = None
-    definition: Optional[str] = None
-    category: Optional[str] = None
-    level: Optional[str] = None
-    example: Optional[str] = None
-    formula: Optional[str] = None
-
-class Definition(DefinitionBase):
-    id: int
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-    
-    class Config:
-        from_attributes = True
-
 # Booking schemas
 class BookingBase(BaseModel):
     student_name: str

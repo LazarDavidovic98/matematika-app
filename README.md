@@ -63,16 +63,15 @@ matematika-app/
 │  │  │  ├─ bookings.py        # /api/bookings (zakazivanje časova)
 │  │  │  ├─ courses.py         # /api/courses (kursevi)
 │  │  │  ├─ lessons.py         # /api/lessons (lekcije)
-│  │  │  ├─ definitions.py     # /api/definitions (definicije)
 │  │  │  └─ contact.py         # /api/contact (kontakt forma)
 │  │  └─ services/
 │  │     ├─ mailer.py          # Email servisi
 │  │     └─ storage.py         # File upload servisi
 │  ├─ alembic/                 # Database migracije
 │  ├─ requirements.txt         # Python zavisnosti
-│  ├─ Dockerfile              # Docker konfiguracija
-│  ├─ .env.template           # Template za environment varijable
-│  └─ init.sql                # Početni podaci za bazu
+│  ├─ Dockerfile               # Docker konfiguracija
+│  ├─ .env.template            # Template za environment varijable
+│  └─ init.sql                 # Početni podaci za bazu
 │
 ├─ frontend/                   # React aplikacija
 │  ├─ public/
@@ -86,7 +85,6 @@ matematika-app/
 │  │  │  ├─ Casovi.jsx        # Privatni časovi + forma
 │  │  │  ├─ Kursevi.jsx       # Lista kurseva
 │  │  │  ├─ Lekcije.jsx       # Video lekcije
-│  │  │  ├─ Definicije.jsx    # Matematičke definicije
 │  │  │  └─ Kontakt.jsx       # Kontakt forma
 │  │  ├─ components/
 │  │  │  ├─ Sidebar.jsx       # Navigacija sa logo-om + logout
@@ -286,11 +284,6 @@ alembic upgrade head
 - `GET /api/lessons/` - Lista lekcija
 - `GET /api/lessons/course/{course_id}` - Lekcije po kursu
 - `POST /api/lessons/` - Kreiranje lekcije
-
-### Definicije
-- `GET /api/definitions/` - Lista definicija
-- `GET /api/definitions/categories` - Kategorije
-- `POST /api/definitions/` - Dodavanje definicije
 
 ### Zakazivanje Časova
 - `POST /api/bookings/` - Zakazivanje časa (šalje email)

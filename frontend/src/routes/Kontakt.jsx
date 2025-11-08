@@ -339,7 +339,7 @@ const Kontakt = () => {
               },
               {
                 question: 'Da li ima besplatnih materijala?',
-                answer: 'Da, imamo mnoge besplatne video lekcije, definicije i materijale dostupne svima.'
+                answer: 'Da, imamo mnoge besplatne video lekcije i materijale dostupne svima.'
               },
               {
                 question: 'Za koje uzraste držite časove?',

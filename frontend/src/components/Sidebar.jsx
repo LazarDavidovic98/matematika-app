@@ -5,7 +5,6 @@ import {
   Calendar, 
   GraduationCap, 
   FileText, 
-  BookMarked, 
   Mail,
   LogOut 
 } from 'lucide-react';
@@ -45,12 +44,6 @@ const Sidebar = ({ onLogout }) => {
       path: '/lekcije',
       icon: BookOpen,
       description: 'Besplatne lekcije i materijali'
-    },
-    {
-      name: 'Definicije',
-      path: '/definicije',
-      icon: BookMarked,
-      description: 'Matematičke definicije'
     },
     {
       name: 'Kontakt',

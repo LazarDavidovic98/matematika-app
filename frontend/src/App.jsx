@@ -6,7 +6,6 @@ import Onama from './routes/Onama';
 import Casovi from './routes/Casovi';
 import Kursevi from './routes/Kursevi';
 import Lekcije from './routes/Lekcije';
-import Definicije from './routes/Definicije';
 import Kontakt from './routes/Kontakt';
 
 function App() {
@@ -52,7 +51,6 @@ function App() {
               <Route path="/casovi" element={<Casovi />} />
               <Route path="/kursevi" element={<Kursevi />} />
               <Route path="/lekcije" element={<Lekcije />} />
-              <Route path="/definicije" element={<Definicije />} />
               <Route path="/kontakt" element={<Kontakt />} />
             </Routes>
           </div>
