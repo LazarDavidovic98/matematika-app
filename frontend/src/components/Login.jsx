@@ -1,36 +1,51 @@
+// 🔐 LOGIN KOMPONENTA - AUTENTIFIKACIJA KORISNIKA
+// ==============================================
+// Jednostavna login forma sa mock autentifikacijom za demo svrhe
+
 import React, { useState } from 'react';
+// 🎨 Lucide React ikone
 import { LogIn, User, Lock, BookOpen } from 'lucide-react';
 
+// 🔐 LOGIN KOMPONENTA
 const Login = ({ onLogin }) => {
+  // 📝 STATE ZA FORM PODATKE
+  // useState hook čuva podatke forme i re-render-uje komponentu kada se promene
   const [credentials, setCredentials] = useState({
-    username: '',
-    password: ''
+    username: '',    // Korisničko ime 
+    password: ''     // Lozinka
   });
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  
+  const [error, setError] = useState('');           // Poruka greške
+  const [isLoading, setIsLoading] = useState(false); // Loading spinner state
 
+  // 📤 FORM SUBMISSION HANDLER
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    // Simuliramo malo delay za bolje korisničko iskustvo
+    e.preventDefault();  // Sprečava default browser form submission
+    setIsLoading(true);  // Prikaži loading spinner
+    setError('');        // Obriši prethodne greške
+    
+    // 🎭 MOCK AUTENTIFIKACIJA - simulira API poziv
+    // U stvarnoj aplikaciji ovde bi bio axios.post('/api/auth/login')
     setTimeout(() => {
+      // Hard-coded credentials za demo (u produkciji: JWT tokens, bcrypt, itd.)
       if (credentials.username === 'Lazar' && credentials.password === 'Davidovic') {
-        onLogin();
+        onLogin();  // Pozovi callback funkciju iz App.jsx (setIsAuthenticated(true))
       } else {
         setError('Netačno korisničko ime ili lozinka');
-        setIsLoading(false);
+        setIsLoading(false);  // Ukloni loading spinner
       }
-    }, 800);
+    }, 800);  // 800ms delay za bolje UX (simulira network request)
   };
 
+  // 📝 INPUT CHANGE HANDLER
   const handleChange = (e) => {
+    // Spread operator (...) kopira postojeći objekat i menja samo jedan field
     setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value
+      ...credentials,                    // Kopiraj sve postojeće vrednosti
+      [e.target.name]: e.target.value   // Promeni samo field koji se menja
     });
-    setError(''); // Uklanjamo grešku kad korisnik počne da kuca
+    
+    setError(''); // Uklanjaj grešku čim korisnik počne da kuca (UX improvement)
   };
 
   return (

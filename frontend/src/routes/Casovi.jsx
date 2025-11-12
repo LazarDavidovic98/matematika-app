@@ -1,17 +1,26 @@
+// 📅 ČASOVI KOMPONENTA - STRANICA ZA ZAKAZIVANJE PRIVATNIH ČASOVA
+// ===============================================================
+// Ova stranica prikazuje informacije o privatnim časovima i omogućava zakazivanje
+
 import React from 'react';
-import BookingForm from '../components/BookingForm';
+import BookingForm from '../components/BookingForm';  // Form komponenta za booking
+// 🎨 Lucide React ikone za benefits sekciju
 import { Clock, Users, Award, CheckCircle, Calendar, MessageCircle } from 'lucide-react';
 
+// 📅 GLAVNA ČASOVI KOMPONENTA
 const Casovi = () => {
+  
+  // 🎯 BENEFITS DATA - prednosti privatnih časova
+  // Array objekata koji se mapira u Benefits sekciju
   const benefits = [
     {
-      icon: Users,
-      title: 'Individualan pristup',
+      icon: Users,                      // React komponenta ikone
+      title: 'Individualan pristup',    // Naslov benefita
       description: 'Jedan nastavnik, jedan student - maksimalna pažnja i prilagođen tempo'
     },
     {
       icon: Clock,
-      title: 'Fleksibilno vreme',
+      title: 'Fleksibilno vreme', 
       description: 'Zakažite čas kada vama odgovara - radni dani, vikendom, online ili uživo'
     },
     {

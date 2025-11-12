@@ -1,24 +1,43 @@
-import smtplib
-import aiosmtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from ..config import settings
-from ..schemas import BookingCreate, ContactMessageCreate
+# 📧 EMAIL SERVICE - SLANJE NOTIFIKACIJA I PORUKA
+# ===============================================
+# Ovaj servis koristi aiosmtplib za asynchronous slanje email-ova
+# Podržava HTML email-ove sa stilizovanim template-ima
 
+import smtplib
+import aiosmtplib          # Async SMTP client za FastAPI
+from email.mime.text import MIMEText         # Za plain text email-ove
+from email.mime.multipart import MIMEMultipart  # Za HTML + text email-ove
+from ..config import settings  # Uvozimo SMTP konfiguraciju
+from ..schemas import BookingCreate, ContactMessageCreate  # Pydantic schemi
+
+# 📅 FUNKCIJA ZA SLANJE BOOKING NOTIFIKACIJE
 async def send_booking_notification(booking: BookingCreate):
-    """Slanje email notifikacije za zakazivanje časa"""
+    """
+    📨 SLANJE EMAIL NOTIFIKACIJE ZA ZAKAZIVANJE ČASA
     
-    # Kreiranje email poruke
+    Kada student zakaže privatni čas, automatski se šalje email notifikacija
+    instruktoru sa svim detaljima o zahtevu.
+    
+    Args:
+        booking: BookingCreate Pydantic model sa podacima o rezervaciji
+    
+    Email template je responsive HTML sa inline CSS-om za kompatibilnost.
+    """
+    
+    # 📝 KREIRANJE EMAIL PORUKE (MIME format)
+    # MIMEMultipart omogućava kombinovanje HTML i plain text verzija
     msg = MIMEMultipart('alternative')
     msg['Subject'] = f"🎓 Novi zahtev za privatni čas matematike - {booking.student_name}"
-    msg['From'] = settings.smtp_username
-    msg['To'] = settings.notification_email
+    msg['From'] = settings.smtp_username      # Šalje se iz našeg Gmail-a
+    msg['To'] = settings.notification_email   # Prima instruktor
     
-    # HTML sadržaj email-a
+    # 🎨 HTML SADRŽAJ EMAIL-A
+    # Inline CSS styling za maksimalnu email client kompatibilnost
     html_content = f"""
     <html>
     <head>
         <style>
+            /* 📱 RESPONSIVE EMAIL CSS - inline styles za email client-e */
             body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
             .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; }}
             .content {{ padding: 20px; background: #f9f9f9; }}

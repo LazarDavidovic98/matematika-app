@@ -1,0 +1,89 @@
+{
+  "_comment_1": "📦 PACKAGE.JSON - MANIFEST FAJL ZA NODE.JS PROJEKAT",
+  "_comment_2": "Definiše ime, verziju, dependencies i script-ove za frontend",
+  
+  "name": "matematika-app-frontend",
+  "private": true,
+  "_comment_3": "private: true sprečava slučajno publishovanje na npm",
+  
+  "version": "1.0.0",
+  "type": "module",
+  "_comment_4": "type: module omogućava ES6 import/export sintaksu",
+  
+  "_comment_5": "🛠️ NPM SCRIPTS - komande koje se pokreću sa 'npm run <script>'",
+  "scripts": {
+    "dev": "vite",
+    "_comment_dev": "Pokreće Vite dev server sa hot reload na http://localhost:5173",
+    
+    "build": "vite build", 
+    "_comment_build": "Gradi production verziju u dist/ folderu",
+    
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "_comment_lint": "Proverava kod sa ESLint za greške i style violations",
+    
+    "preview": "vite preview"
+    "_comment_preview": "Preview production build-a lokalno"
+  },
+  
+  "_comment_6": "📚 PRODUCTION DEPENDENCIES - potrebne za rad aplikacije",
+  "dependencies": {
+    "react": "^18.2.0",
+    "_comment_react": "Core React library - Virtual DOM, komponente, hooks",
+    
+    "react-dom": "^18.2.0", 
+    "_comment_react_dom": "React renderer za browser DOM",
+    
+    "react-router-dom": "^6.20.0",
+    "_comment_router": "Client-side routing za Single Page Application (SPA)",
+    
+    "axios": "^1.6.0",
+    "_comment_axios": "HTTP client za API pozive (alternative za fetch)",
+    
+    "lucide-react": "^0.294.0",
+    "_comment_lucide": "Beautiful SVG icon library - čiste, moderne ikone",
+    
+    "@headlessui/react": "^1.7.17"
+    "_comment_headlessui": "Unstyled UI komponente (modali, dropdown, itd.)"
+  },
+  
+  "_comment_7": "🛠️ DEVELOPMENT DEPENDENCIES - potrebne samo tokom development-a",
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15", 
+    "_comment_types": "TypeScript type definitions za React (bolje IntelliSense)",
+    
+    "@vitejs/plugin-react": "^4.1.1",
+    "_comment_vite_react": "Vite plugin za React support (JSX, Fast Refresh)",
+    
+    "autoprefixer": "^10.4.16",
+    "_comment_autoprefixer": "Automatski dodaje vendor prefixe u CSS (-webkit-, -moz-)",
+    
+    "eslint": "^8.53.0",
+    "_comment_eslint": "JavaScript linter - pronalazi greške i code style probleme",
+    
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "_comment_eslint_plugins": "ESLint pravila specifična za React development",
+    
+    "postcss": "^8.4.31",
+    "_comment_postcss": "CSS processor - potreban za Tailwind CSS i autoprefixer",
+    
+    "tailwindcss": "^3.3.5",
+    "_comment_tailwind": "Utility-first CSS framework - brže pisanje stilova",
+    
+    "vite": "^4.5.0"
+    "_comment_vite": "Build tool - brži od Webpack, hot reload, ES modules"
+  },
+  
+  "_comment_8": "🎯 OBJAŠNJENJE VERZIJA:",
+  "_comment_9": "^ - caret range, prima patch i minor ažuriranja (^1.2.3 = >=1.2.3 <2.0.0)",
+  "_comment_10": "~ - tilde range, prima samo patch ažuriranja (~1.2.3 = >=1.2.3 <1.3.0)",
+  "_comment_11": "exact - tačno ta verzija (1.2.3)",
+  
+  "_comment_12": "🚀 DEVELOPMENT WORKFLOW:",
+  "_comment_13": "1. npm install - instalira sve dependencies",
+  "_comment_14": "2. npm run dev - pokreće development server",  
+  "_comment_15": "3. npm run build - pravi production build",
+  "_comment_16": "4. npm run preview - testira production build lokalno"
+}

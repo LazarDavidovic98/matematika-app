@@ -1,36 +1,47 @@
+// 📚 KURSEVI KOMPONENTA - STRANICA ZA PREGLED KURSEVA MATEMATIKE
+// =============================================================
+// Ova React komponenta prikazuje listu dostupnih kurseva sa filtriranjem i pretragom
+
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';  // Za programsku navigaciju
+// 🎨 Lucide React ikone za UI
 import { BookOpen, Clock, Star, Users, Play, FileText, Award } from 'lucide-react';
-import axios from 'axios';
+import axios from 'axios';  // HTTP client za API pozive
 
+// 🏠 GLAVNA KURSEVI KOMPONENTA
 const Kursevi = () => {
+  // 🧭 REACT ROUTER HOOK za navigaciju između stranica
   const navigate = useNavigate();
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedLevel, setSelectedLevel] = useState('');
+  
+  // 🔄 STATE MANAGEMENT sa useState Hook-ovima
+  const [courses, setCourses] = useState([]);           // Lista kurseva iz API-ja
+  const [loading, setLoading] = useState(true);        // Loading indicator
+  const [selectedLevel, setSelectedLevel] = useState(''); // Filter po nivou
 
+  // 🎯 FILTER OPCIJE za nivoe matematike
   const levels = [
-    { value: '', label: 'Svi nivoi' },
+    { value: '', label: 'Svi nivoi' },              // Prazan string = bez filtera
     { value: 'osnovna', label: 'Osnovna matematika' },
     { value: 'srednja', label: 'Srednja škola' },
     { value: 'viša', label: 'Viša matematika' },
     { value: 'fakultet', label: 'Fakultet' }
   ];
 
-  // Samo jedan kurs sa PDF materijalom
+  // 📚 MOCK DATA - privremeni podaci dok se API ne implementira
+  // U stvarnoj aplikaciji ovo dolazi iz backend API-ja
   const mockCourses = [
     {
-      id: 1,
-      title: 'Uvod u matematičku logiku',
+      id: 1,                               // Jedinstveni identifikator
+      title: 'Uvod u matematičku logiku',  // Naziv kursa
       description: 'Osnove matematičke logike, logičke formule, iskazna logika i osnove dokazivanja. Materijali dostupni u PDF formatu sa detaljnim objašnjenjima i primerima.',
-      level: 'osnovna',
-      duration_weeks: 4,
-      price: 'Besplatno',
-      is_active: true,
-      lessons_count: 1,
-      difficulty: 'Početni',
-      rating: 4.9,
-      students: 87
+      level: 'osnovna',                    // Nivo složenosti
+      duration_weeks: 4,                   // Trajanje u nedeljama
+      price: 'Besplatno',                  // Cena kursa
+      is_active: true,                     // Da li je kurs aktivan
+      lessons_count: 1,                    // Broj lekcija u kursu
+      difficulty: 'Početni',               // Tekstualni opis težine
+      rating: 4.9,                         // Ocena kursa (1-5)
+      students: 87                         // Broj studenata koji je završilo
     }
   ];
 

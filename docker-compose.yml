@@ -1,28 +1,44 @@
+# 🐳 DOCKER COMPOSE - ORKESTRATOR ZA MULTI-KONTEJNER APLIKACIJE
+# ==============================================================
+# Docker Compose omogućava pokretanje kompletne aplikacije sa jednom komandom
+# Definiše kako se različiti servisi (baza, backend, frontend) povezuju
+
 services:
-  # PostgreSQL Database
+  # 🗄️ POSTGRESQL DATABASE SERVIS
   database:
-    image: postgres:15
-    container_name: matematika_db
+    image: postgres:15                    # Koristi gotovu PostgreSQL 15 sliku sa Docker Hub-a
+    container_name: matematika_db         # Ime kontejnera (za lakše upravljanje)
+    
+    # 🌍 ENVIRONMENT VARIJABLE za PostgreSQL konfiguraciju
     environment:
-      POSTGRES_DB: matematika_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password123
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: matematika_db          # Ime baze podataka
+      POSTGRES_USER: admin                # Database korisnik  
+      POSTGRES_PASSWORD: password123      # Password (u produkciji koristiti Docker secrets!)
+      POSTGRES_HOST_AUTH_METHOD: trust    # Autentifikacija (trust za development)
+    
+    # 💾 VOLUMES - trajno čuvanje podataka
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data           # Named volume za DB podatke
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL script za inicijalizaciju
+    
+    # 🌐 PORT MAPPING - mapiranje porta van kontejnera
     ports:
-      - "5432:5432"
+      - "5432:5432"                      # host_port:container_port
+    
+    # 🔗 DOCKER NETWORKS - omogućava komunikaciju između kontejnera
     networks:
       - matematika_network
-    restart: unless-stopped
+    
+    # 🔄 RESTART POLICY - automatski restart kontejnera
+    restart: unless-stopped               # Restart osim ako je manual stopped
 
-  # FastAPI Backend
+  # 🔧 FASTAPI BACKEND SERVIS  
   backend:
+    # 🏗️ BUILD KONFIGURACIJA - gradi sliku iz našeg koda
     build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: matematika_backend
+      context: ./backend                  # Folder sa kodom
+      dockerfile: Dockerfile              # Build instrukcije
+    container_name: matematika_backend    # Ime kontejnera
     environment:
       - DATABASE_URL=postgresql://admin:password123@database:5432/matematika_db
       - SMTP_SERVER=smtp.gmail.com

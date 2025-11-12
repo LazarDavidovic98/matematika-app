@@ -1,31 +1,40 @@
+// 🧭 SIDEBAR KOMPONENTA - NAVIGACIJA APLIKACIJE
+// =============================================
+// Ova komponenta kreira bočnu navigaciju sa linkovima ka različitim stranicama
+
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';  // React Router za SPA navigaciju
+// 🎨 LUCIDE REACT IKONE - moderne SVG ikone
 import { 
-  BookOpen, 
-  Calendar, 
-  GraduationCap, 
-  FileText, 
-  Mail,
-  LogOut 
+  BookOpen,     // 📖 Ikona za knjige/kurseve
+  Calendar,     // 📅 Ikona za zakazivanje časova
+  GraduationCap, // 🎓 Ikona za lekcije/učenje
+  FileText,     // 📄 Ikona za dokumenta
+  Mail,         // ✉️ Ikona za kontakt
+  LogOut        // 🚪 Ikona za logout
 } from 'lucide-react';
 
-// Custom logo component
+// 💡 CUSTOM LOGO KOMPONENTA
+// Wrapper komponenta za logo sliku sa props za veličinu
 const LogoIcon = ({ size = 20 }) => (
   <img 
-    src="/logo-bulb.png" 
+    src="/logo-bulb.png"        // Slika iz public/ foldera
     alt="Logo" 
-    className="w-5 h-5 object-contain"
-    style={{ width: size, height: size }}
+    className="w-5 h-5 object-contain"  // Tailwind CSS klase
+    style={{ width: size, height: size }}  // Dynamic sizing kroz props
   />
 );
 
+// 🧭 GLAVNA SIDEBAR KOMPONENTA
 const Sidebar = ({ onLogout }) => {
+  // 📋 NAVIGACIJA KONFIGURACIJA
+  // Array objekata koji definiše sve stranice u aplikaciji
   const navigationItems = [
     {
-      name: 'O nama',
-      path: '/',
-      icon: LogoIcon,
-      description: 'Saznajte više o nama'
+      name: 'O nama',               // Tekst koji se prikazuje
+      path: '/',                   // React Router path
+      icon: LogoIcon,              // React komponenta za ikonu
+      description: 'Saznajte više o nama'  // Tooltip/description
     },
     {
       name: 'Časovi',

@@ -1,31 +1,76 @@
+# 📋 PYDANTIC SCHEMAS - VALIDACIJA I SERIALIZATION PODATAKA  
+# ===========================================================
+# Pydantic automatski validira ulazne podatke i konvertuje ih između JSON ↔ Python objekta
+# Različiti schemi za različite operacije (Create, Update, Response)
+
 from pydantic import BaseModel, EmailStr
-from datetime import datetime
+from datetime import datetime  
 from typing import List, Optional
 
-# Course schemas
+# 📚 COURSE SCHEMAS - Za validaciju API podataka o kursevima
+
 class CourseBase(BaseModel):
-    title: str
-    description: Optional[str] = None
-    level: Optional[str] = None
-    duration_weeks: Optional[int] = None
-    price: Optional[str] = None
-    is_active: bool = True
+    """
+    🏗️ BAZNA KLASA ZA COURSE SCHEMI
+    
+    Sadrži sva zajednička polja koja se koriste u Create i Update operacijama.
+    Inheritance pattern - nasleđivanje da izbegnemo duplikovanje koda.
+    """
+    title: str                              # Obavezno polje - ime kursa
+    description: Optional[str] = None       # Opciono - duži opis kursa
+    level: Optional[str] = None             # Opciono - "osnovna", "srednja", "viša"  
+    duration_weeks: Optional[int] = None    # Opciono - trajanje u nedeljama
+    price: Optional[str] = None             # Opciono - cena kao string ("5000 RSD", "besplatno")
+    is_active: bool = True                  # Default True - kurs je aktivan
 
 class CourseCreate(CourseBase):
-    pass
+    """
+    ➕ SCHEMA ZA KREIRANJE NOVOG KURSA
+    
+    Nasleđuje sva polja iz CourseBase.
+    Korisnik šalje JSON koji se automatski validira protiv ovog schema-a.
+    
+    Primer JSON request-a:
+    {
+        "title": "Algebra za početnike", 
+        "description": "Osnove algebre...",
+        "level": "osnovna",
+        "duration_weeks": 8,
+        "price": "5000 RSD"
+    }
+    """
+    pass  # Koristi sva polja iz CourseBase bez izmena
 
 class CourseUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    level: Optional[str] = None
-    duration_weeks: Optional[int] = None
-    price: Optional[str] = None
-    is_active: Optional[bool] = None
+    """
+    ✏️ SCHEMA ZA AŽURIRANJE POSTOJEĆEG KURSA
+    
+    Sva polja su Optional jer možda želimo da ažuriramo samo neki deo.
+    PATCH semantika - parcijalno ažuriranje.
+    
+    Primer JSON request-a:
+    {
+        "title": "Novo ime kursa",
+        "is_active": false
+    }
+    """
+    title: Optional[str] = None             # Možda želimo da menjamo samo naziv
+    description: Optional[str] = None       # Možda želimo da menjamo samo opis
+    level: Optional[str] = None             # Možda želimo da menjamo samo nivo
+    duration_weeks: Optional[int] = None    # Možda želimo da menjamo samo trajanje
+    price: Optional[str] = None             # Možda želimo da menjamo samo cenu
+    is_active: Optional[bool] = None        # Možda želimo da menjamo samo status
 
 class Course(CourseBase):
-    id: int
-    created_at: datetime
-    updated_at: Optional[datetime] = None
+    """
+    📤 SCHEMA ZA RESPONSE - Šta API vraća klijentu
+    
+    Nasleđuje polja iz CourseBase + dodaje metadata polja (id, timestamps).
+    Ovo je ono što frontend dobija kada pozove GET /api/courses/
+    """
+    id: int                                 # Auto-generated primary key iz baze
+    created_at: datetime                    # Timestamp kada je kurs kreiran
+    updated_at: Optional[datetime] = None   # Timestamp poslednje izmene
     
     class Config:
         from_attributes = True
