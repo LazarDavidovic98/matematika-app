@@ -49,6 +49,11 @@ async def startup_event():
     except Exception as e:
         print(f"❌ Greška pri inicijalizaciji baze: {str(e)}")
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for monitoring"""
+    return {"status": "healthy", "service": "matematika-app-backend"}
+
 @app.get("/")
 async def root():
     """Root endpoint - osnovne informacije o API-ju"""
